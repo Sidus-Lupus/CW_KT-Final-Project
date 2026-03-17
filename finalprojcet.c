@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-//KT This is an array that stores the values of all board locations
 char board_setup[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8'};
 
 //CW This funciton checks to see if a player/computer move is a valid move
@@ -18,7 +17,7 @@ int checkLegalMove(int location){
 //KT This function allows the player to select a location to move and updates that value in board_setup
 int playerMove(){
     int store_player_move;
-    printf("you are X chose spots 0-8 (0 top right, 4 center, 8 bottom left.):");
+    printf("Choose a spot (0-8): ");
     scanf("%d", &store_player_move);
     if (checkLegalMove(store_player_move) == 1){
         board_setup[store_player_move] = 'X';
@@ -40,17 +39,70 @@ int computerMove(){
    }
 }
 
-//KT
-void printGameBoard(char loc1, char loc2, char loc3, char loc4, char loc5, char loc6, char loc7, char loc8, char loc9);
-    printf(" %c | %c | %c \n", loc1 loc2 loc3);
-    printf("---|---|---");
-    printf(" %c | %c | %c \n");
-    printf("---|---|---");
-    printf(" %c | %c | %c \n");
+//KT the setup of the board
+void printGameBoard(){
+    printf(" %c | %c | %c \n", board_setup[0], board_setup[1], board_setup[2]);
+    printf("---|---|---\n");
+    printf(" %c | %c | %c \n", board_setup[3], board_setup[4], board_setup[5]);
+    printf("---|---|---\n");
+    printf(" %c | %c | %c \n", board_setup[6], board_setup[7], board_setup[8]);
+    printf(" \n");
+}
+
+void printWinner(char location){
+    if (location == 'X'){
+        printf("You win!\n");
+    } else {
+        printf("Computer wins.");
+    }
+}
+//CW and KT This code checks if a win state or a tie has been reached
+int checkWinner(){
+    if (board_setup[0] == board_setup[1] == board_setup[2]){
+        printWinner(board_setup[0]);
+        return 0;
+    } else if (board_setup[0] == board_setup[4] == board_setup[8]){
+        printWinner(board_setup[0]);
+        return 0;
+    } else if (board_setup[0] == board_setup[3] == board_setup[6]){ 
+        printWinner(board_setup[0]);
+        return 0;
+    } else if (board_setup[1] == board_setup[4] == board_setup[7]){
+        printWinner(board_setup[2]);
+        return 0;
+    } else if (board_setup[2] == board_setup[5] == board_setup[8]){
+        printWinner(board_setup[2]);
+        return 0;
+    } else if (board_setup[2] == board_setup[4] == board_setup[6]){
+        printWinner(board_setup[2]);
+        return 0;
+    } else if (board_setup[3] == board_setup[4] == board_setup[5]){
+        printWinner(board_setup[3]);
+        return 0;
+    } else if (board_setup[6] == board_setup[7] == board_setup[8]){
+        printWinner(board_setup[6]);
+        return 0;
+    }else if (board_setup[0] != '0' && board_setup[1] != '1' && board_setup[2] != '2' && board_setup[3] != '3' && board_setup[4] != '4' && board_setup[5] != '5' && board_setup[6] != '6' && board_setup[7] != '7' && board_setup[8] != '8'){
+        printf("Cat's Game...");
+        return 0;
+    } else{
+        return 1;
+    }
+}
 
 int main(){
-    printGameBoard;
-
-
+    while (checkWinner() == 1){
+        printGameBoard();
+        while(playerMove() == 1){
+        }
+        if (checkWinner() == 0){
+            break;
+        }
+        while (computerMove() == 1){
+        }
+    }
+    printGameBoard();
+    
+    printf("END LINE");
     return 0;
 }
