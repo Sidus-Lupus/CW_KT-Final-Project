@@ -4,6 +4,7 @@
 #include <time.h>
 
 char board_setup[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8'};
+char player_response = 'y';
 
 //CW This funciton checks to see if a player/computer move is a valid move
 int checkLegalMove(int location){
@@ -51,46 +52,66 @@ void printGameBoard(){
 
 void printWinner(char location){
     if (location == 'X'){
-        printf("You win!\n");
+        printf("----------\n");
+        printf(" You win!\n");
+        printf("----------\n");
     } else {
-        printf("Computer wins.");
+        printf("---------------\n");
+        printf(" Computer wins.\n");
+        printf("---------------\n");
     }
 }
 //CW and KT This code checks if a win state or a tie has been reached
 int checkWinner(){
-    if (board_setup[0] == board_setup[1] == board_setup[2]){
+    if (board_setup[0] == board_setup[1] && board_setup[1] == board_setup[2]){
         printWinner(board_setup[0]);
         return 0;
-    } else if (board_setup[0] == board_setup[4] == board_setup[8]){
+    } else if (board_setup[0] == board_setup[4] && board_setup[4] == board_setup[8]){
         printWinner(board_setup[0]);
         return 0;
-    } else if (board_setup[0] == board_setup[3] == board_setup[6]){ 
+    } else if (board_setup[0] == board_setup[3] && board_setup[3] == board_setup[6]){ 
         printWinner(board_setup[0]);
         return 0;
-    } else if (board_setup[1] == board_setup[4] == board_setup[7]){
+    } else if (board_setup[1] == board_setup[4] && board_setup[4] == board_setup[7]){
         printWinner(board_setup[2]);
         return 0;
-    } else if (board_setup[2] == board_setup[5] == board_setup[8]){
+    } else if (board_setup[2] == board_setup[5] && board_setup[5] == board_setup[8]){
         printWinner(board_setup[2]);
         return 0;
-    } else if (board_setup[2] == board_setup[4] == board_setup[6]){
+    } else if (board_setup[2] == board_setup[4] && board_setup[4] == board_setup[6]){
         printWinner(board_setup[2]);
         return 0;
-    } else if (board_setup[3] == board_setup[4] == board_setup[5]){
+    } else if (board_setup[3] == board_setup[4] && board_setup[4] == board_setup[5]){
         printWinner(board_setup[3]);
         return 0;
-    } else if (board_setup[6] == board_setup[7] == board_setup[8]){
+    } else if (board_setup[6] == board_setup[7] && board_setup[7] == board_setup[8]){
         printWinner(board_setup[6]);
         return 0;
     }else if (board_setup[0] != '0' && board_setup[1] != '1' && board_setup[2] != '2' && board_setup[3] != '3' && board_setup[4] != '4' && board_setup[5] != '5' && board_setup[6] != '6' && board_setup[7] != '7' && board_setup[8] != '8'){
-        printf("Cat's Game...");
+        printf("Cat's Game...\n");
         return 0;
     } else{
         return 1;
     }
 }
 
-int main(){
+//Kt and CW This asks the player if they want to play again
+int askPlayerReplay(){
+    printf("Would you like to play again (y/n): ");
+    scanf("%c", &player_response);
+    if (player_response == 'y'){
+        for (int i = 0; i >= 9; i++){
+            board_setup[i] = ("%c", i);
+        }
+        return 1;
+    } else{
+        printf("Thanks for playing :3\n");
+        return 0;
+    }
+}
+
+//CW This function runs the game itself
+void runGame(){
     while (checkWinner() == 1){
         printGameBoard();
         while(playerMove() == 1){
@@ -102,7 +123,12 @@ int main(){
         }
     }
     printGameBoard();
-    
-    printf("END LINE");
+}
+//KT Runs the game and asks if the player wants to play again
+int main(){
+    runGame();
+    while (askPlayerReplay() == 1){
+        runGame();
+    }
     return 0;
 }
