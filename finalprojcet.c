@@ -20,7 +20,7 @@ int playerMove(){
     int store_player_move;
     printf("Choose a spot (0-8): ");
     scanf("%d", &store_player_move);
-    if (checkLegalMove(store_player_move) == 1 && store_player_move < 9){
+    if (checkLegalMove(store_player_move) == 1 && store_player_move < 9 && store_player_move >= 0){
         board_setup[store_player_move] = 'X';
         return 0;
     } else {
