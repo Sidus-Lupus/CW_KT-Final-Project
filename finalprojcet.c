@@ -4,7 +4,7 @@
 #include <time.h>
 
 char board_setup[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8'};
-char player_response = 'y';
+
 
 //CW This funciton checks to see if a player/computer move is a valid move
 int checkLegalMove(int location){
@@ -20,7 +20,7 @@ int playerMove(){
     int store_player_move;
     printf("Choose a spot (0-8): ");
     scanf("%d", &store_player_move);
-    if (checkLegalMove(store_player_move) == 1){
+    if (checkLegalMove(store_player_move) == 1 && store_player_move < 9){
         board_setup[store_player_move] = 'X';
         return 0;
     } else {
@@ -56,9 +56,9 @@ void printWinner(char location){
         printf(" You win!\n");
         printf("----------\n");
     } else {
-        printf("---------------\n");
+        printf("----------------\n");
         printf(" Computer wins.\n");
-        printf("---------------\n");
+        printf("----------------\n");
     }
 }
 //CW and KT This code checks if a win state or a tie has been reached
@@ -94,15 +94,30 @@ int checkWinner(){
         return 1;
     }
 }
+// Google AI Clears the value of the variable
+void clear_input_buffer() {
+    int c; // 'c' must be an 'int' to properly handle the EOF value
+    while ((c = getchar()) != '\n' && c != EOF) {
+        // Discard characters
+    }
+}
 
 //Kt and CW This asks the player if they want to play again
 int askPlayerReplay(){
-    printf("Would you like to play again (y/n): ");
+    char player_response;
+    clear_input_buffer();
+    printf("Would you like to play again (y/n): \n");
     scanf("%c", &player_response);
     if (player_response == 'y'){
-        for (int i = 0; i >= 9; i++){
-            board_setup[i] = ("%c", i);
-        }
+        board_setup[0] = '0';
+        board_setup[1] = '1';
+        board_setup[2] = '2';
+        board_setup[3] = '3';
+        board_setup[4] = '4';
+        board_setup[5] = '5';
+        board_setup[6] = '6';
+        board_setup[7] = '7';
+        board_setup[8] = '8';
         return 1;
     } else{
         printf("Thanks for playing :3\n");
